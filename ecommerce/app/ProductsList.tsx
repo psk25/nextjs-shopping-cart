@@ -4,8 +4,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from "./product-data";
+import { useRouter } from 'next/navigation';
 
 export default function ProductsList({ products, initialCartProducts = [] }: { products: Product[], initialCartProducts: Product[] }) {
+  const router = useRouter();
   const [cartProducts, setCartProducts] = useState(initialCartProducts)
   
   async function addToCart(productId: string) {
@@ -20,6 +22,7 @@ export default function ProductsList({ products, initialCartProducts = [] }: { p
     });
     const updatedCartProducts = await response.json();
     setCartProducts(updatedCartProducts);
+    router.refresh();
   }
 
   async function removeFromCart(productId: string) {
@@ -34,6 +37,7 @@ export default function ProductsList({ products, initialCartProducts = [] }: { p
     });
     const updatedCartProducts = await response.json();
     setCartProducts(updatedCartProducts);
+    router.refresh();
   }
 
   function productIsInCart(productId: string) {

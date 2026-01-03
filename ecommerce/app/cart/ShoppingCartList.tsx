@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { Product } from '../product-data';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function ShoppingCartList({ initialCartProducts }: { initialCartProducts: Product[] }) {
+  const router = useRouter();
   const [cartProducts, setCartProducts] = useState(initialCartProducts);
 
   async function removeFromCart(productId: string) {
@@ -19,6 +21,7 @@ export default function ShoppingCartList({ initialCartProducts }: { initialCartP
     });
     const updatedCartProducts = await response.json();
     setCartProducts(updatedCartProducts);
+    router.refresh();
   }
 
   return (
